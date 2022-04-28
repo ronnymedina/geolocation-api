@@ -12,7 +12,7 @@ Hi, if you are interested in this repository, I will tell you what it does.
 ### Main dependencies
 
 - [Gin-gonic](https://github.com/gin-gonic/gin)
-- [Field validator](https://pkg.go.dev/github.com/go-playground/validator/v10)
+- [Field validator](https://pkg.go.dev/github.com/go-playground/validator/v10#readme-usage-and-documentation)
 
 
 ### Documentation
