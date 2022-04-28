@@ -10,7 +10,5 @@ RUN go mod download && go mod verify
 COPY ./src ${workdir}/src
 
 # RUN go build -v -o /usr/local/bin/app
-RUN ls
-RUN echo pwd
 
 CMD ["bash", "run.sh"]
