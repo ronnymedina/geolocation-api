@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  geolocation-pg:
+    image: postgres:14.1-alpine
+    restart: always
+    container_name: geolocation-pg
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=geolocation
+    ports:
+      - '5432:5432'
+    volumes:
+      - db:/var/lib/postgresql/data
+
+  geolocation-api:
+    build: .
+    container_name: geolocation-api
+    environment:
+      - POSTGRE_HOST=geolocation-pg
+      - POSTGRE_USER=postgres
+      - POSTGRE_PASS=postgres
+      - POSTGRE_DB=geolocation
+    ports:
+      - '8080:8080'
+    depends_on:
+      - geolocation-pg
+volumes:
+  db:
+    driver: local
