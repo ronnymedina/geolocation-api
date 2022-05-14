@@ -1,10 +1,7 @@
 package main
 
 import (
-	"database/sql"
-	"fmt"
-	"os"
-	"ronnymedina/geolocation-api/src/helpers"
+	"ronnymedina/geolocation-api/src/config"
 	"ronnymedina/geolocation-api/src/routes"
 
 	"github.com/gin-gonic/gin"
@@ -13,31 +10,18 @@ import (
 )
 
 func main() {
-	PG_HOST := os.Getenv("POSTGRE_HOST")
-	PG_USER := os.Getenv("POSTGRE_USER")
-	PG_PASS := os.Getenv("POSTGRE_PASS")
-	PG_DB := os.Getenv("POSTGRE_DB")
-	URL_CONNECT := "postgres://" + PG_USER + ":" + PG_PASS + "@" + PG_HOST + "/" + PG_DB + "?sslmode=disable"
-	db, err := sql.Open("postgres", URL_CONNECT)
+	config.StartConnection()
+	// rows, err := db.Query("SELECT name FROM places")
 
-	helpers.CheckError(err)
-	defer db.Close()
+	// defer rows.Close()
 
-	err = db.Ping()
-	helpers.CheckError(err)
+	// for rows.Next() {
+	// 	var name string
 
-	rows, err := db.Query("SELECT name FROM places")
-
-	helpers.CheckError(err)
-	defer rows.Close()
-
-	for rows.Next() {
-		var name string
-
-		err = rows.Scan(&name)
-		helpers.CheckError(err)
-		fmt.Println(name)
-	}
+	// 	err = rows.Scan(&name)
+	// 	helpers.CheckError(err)
+	// 	fmt.Println(name)
+	// }
 
 	r := gin.Default()
 
