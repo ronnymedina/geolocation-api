@@ -1,3 +1,3 @@
-echo "start app"
+echo "Start app in dev mode"
 
-go run ./src/main.go
+cd src && go run .
