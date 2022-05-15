@@ -6,6 +6,7 @@ import (
 	"ronnymedina/geolocation-api/src/helpers"
 	"ronnymedina/geolocation-api/src/services"
 	"ronnymedina/geolocation-api/src/validations"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -28,9 +29,23 @@ func CreatePlace(c *gin.Context) {
 }
 
 func UpdatePlace(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"message": "UPDATE",
-	})
+	log.SetPrefix("[UpdatePlace] ")
+	defer helpers.ResInternalServerErr(c)
+
+	var place validations.UpdatePlace
+	var id int64
+	if err := c.ShouldBindJSON(&place); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	log.Println("Place to Update with id:" + c.Param("id"))
+	log.Println(place)
+
+	id, _ = strconv.ParseInt(c.Param("id"), 10, 64)
+	services.UpdatePlace(id, place)
+
+	helpers.ResSuccess(c, 200, gin.H{"data": "ok"})
 }
 
 func FindPlace(c *gin.Context) {
