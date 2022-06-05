@@ -1,7 +1,6 @@
 package middlewares
 
 import (
-	"fmt"
 	"net/http"
 	"ronnymedina/geolocation-api/src/services"
 	"strconv"
@@ -15,9 +14,9 @@ func FindPlaceOrReturnNotFound() gin.HandlerFunc {
 
 		var id int64
 		id, _ = strconv.ParseInt(c.Param("id"), 10, 64)
+		place := services.FindPlace(id)
+		c.Set("place", place)
 
-		fmt.Println(services.FindPlace(id), "resultado")
-		// before request
 		c.Next()
 	}
 }

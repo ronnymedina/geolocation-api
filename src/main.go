@@ -24,7 +24,7 @@ func main() {
 		routeName := "/places"
 		v1.POST(routeName, routes.CreatePlace)
 		v1.PATCH(routeName+"/:id", middlewares.FindPlaceOrReturnNotFound(), routes.UpdatePlace)
-		v1.GET(routeName+"/:id", routes.FindPlace)
+		v1.GET(routeName+"/:id", middlewares.FindPlaceOrReturnNotFound(), routes.FindPlace)
 		v1.DELETE(routeName+"/:id", routes.DeletePlace)
 	}
 

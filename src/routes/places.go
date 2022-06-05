@@ -4,9 +4,9 @@ import (
 	"log"
 	"net/http"
 	"ronnymedina/geolocation-api/src/helpers"
+	"ronnymedina/geolocation-api/src/models"
 	"ronnymedina/geolocation-api/src/services"
 	"ronnymedina/geolocation-api/src/validations"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -32,26 +32,24 @@ func UpdatePlace(c *gin.Context) {
 	log.SetPrefix("[UpdatePlace] ")
 	defer helpers.ResInternalServerErr(c)
 
-	var place validations.UpdatePlace
-	var id int64
-	if err := c.ShouldBindJSON(&place); err != nil {
+	var place *models.Place
+	var updatePlace validations.UpdatePlace
+
+	if err := c.ShouldBindJSON(&updatePlace); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	log.Println("Place to Update with id:" + c.Param("id"))
-	log.Println(place)
-
-	id, _ = strconv.ParseInt(c.Param("id"), 10, 64)
-	services.UpdatePlace(id, place)
-
+	log.Println(updatePlace)
+	place = c.MustGet("place").(*models.Place)
+	services.UpdatePlace(place.Id, updatePlace)
 	helpers.ResSuccess(c, 200, gin.H{"data": "ok"})
 }
 
 func FindPlace(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"message": "GET",
-	})
+	place := c.MustGet("place").(*models.Place)
+
+	c.JSON(200, gin.H{"data": place})
 }
 
 func DeletePlace(c *gin.Context) {
