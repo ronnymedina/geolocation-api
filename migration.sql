@@ -8,12 +8,12 @@ CREATE TABLE IF NOT EXISTS places (
     name VARCHAR(200) NOT NULL,
     description VARCHAR(500) NOT NULL,
     resource_id BIGINT NOT NULL,
+    is_deleted BOOLEAN NOT NULL DEFAULT FALSE,
     lat double precision NOT NULL,
     lng double precision NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    updated_at TIMESTAMP DEFAULT NULL,
-    deleted_at TIMESTAMP DEFAULT NULL
+    updated_at TIMESTAMP DEFAULT NULL
 );
 
-CREATE INDEX places_name_low_idx ON places USING btree (lower((name)::text));
+CREATE INDEX places_is_deleted_idx ON places USING hash (is_deleted);
 CREATE INDEX places_location_idx ON places USING gist (ll_to_earth(lat, lng));

@@ -14,7 +14,7 @@ const (
 
 func FindPlace(id int64) *models.Place {
 	var place models.Place
-	sql := "SELECT id, name, description, resource_id, lat, lng, created_at FROM places WHERE id = $1"
+	sql := "SELECT id, name, description, resource_id, lat, lng, created_at FROM places WHERE id = $1 AND is_deleted = false LIMIT 1"
 	db := config.GetDB()
 	err := db.QueryRow(sql, id).Scan(&place.Id, &place.Name, &place.Description, &place.ResourceId, &place.Lat, &place.Lng, &place.CreatedAt)
 
@@ -43,5 +43,16 @@ func UpdatePlace(id int64, place validations.UpdatePlace) {
 	defer stmt.Close()
 
 	_, err = stmt.Exec(place.Name, place.Description, place.ResourceId, time.Now().UTC().Format(DATE_FORMAT), id)
+	helpers.CheckAndThrowException(err)
+}
+
+func DeletePlace(id int64) {
+	sql := "UPDATE places SET is_deleted = $1 WHERE id = $2"
+	stmt, err := config.GetDB().Prepare(sql)
+
+	helpers.CheckAndThrowException(err)
+	defer stmt.Close()
+
+	_, err = stmt.Exec(true, id)
 	helpers.CheckAndThrowException(err)
 }

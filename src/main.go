@@ -25,7 +25,7 @@ func main() {
 		v1.POST(routeName, routes.CreatePlace)
 		v1.PATCH(routeName+"/:id", middlewares.FindPlaceOrReturnNotFound(), routes.UpdatePlace)
 		v1.GET(routeName+"/:id", middlewares.FindPlaceOrReturnNotFound(), routes.FindPlace)
-		v1.DELETE(routeName+"/:id", routes.DeletePlace)
+		v1.DELETE(routeName+"/:id", middlewares.FindPlaceOrReturnNotFound(), routes.DeletePlace)
 	}
 
 	r.Run() // listen and serve on 0.0.0.0:8080

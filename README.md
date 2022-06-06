@@ -2,10 +2,9 @@
 
 Hi, if you are interested in this repository, I will tell you what it does.
 
-- Place Creations: ...
-
 
 ### Commands
+
 - start app: `go run ./src/main`
 
 
@@ -16,5 +15,4 @@ Hi, if you are interested in this repository, I will tell you what it does.
 
 
 ### Documentation
-
  - [postgresql-geo-queries-made-easy](https://postindustria.com/postgresql-geo-queries-made-easy/)

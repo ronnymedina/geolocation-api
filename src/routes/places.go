@@ -53,7 +53,8 @@ func FindPlace(c *gin.Context) {
 }
 
 func DeletePlace(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"message": "DELETE",
-	})
+	place := c.MustGet("place").(*models.Place)
+	services.DeletePlace(place.Id)
+
+	c.JSON(200, gin.H{"data": "ok"})
 }
