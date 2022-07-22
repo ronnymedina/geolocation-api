@@ -58,3 +58,24 @@ func DeletePlace(c *gin.Context) {
 
 	c.JSON(200, gin.H{"data": "ok"})
 }
+
+func GetNearbyPlaces(c *gin.Context) {
+	var params validations.NearbyPlaces
+
+	if err := c.ShouldBindJSON(&params); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if params.Page == 1 {
+		params.Page = 0
+	}
+
+	if params.Page > 0 {
+		params.Page = params.Limit * (params.Page - 1)
+	}
+
+	rows := services.GetNearbyPlaces(params)
+
+	c.JSON(200, gin.H{"data": rows})
+}

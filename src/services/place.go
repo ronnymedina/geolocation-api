@@ -1,6 +1,7 @@
 package services
 
 import (
+	"log"
 	"ronnymedina/geolocation-api/src/config"
 	"ronnymedina/geolocation-api/src/helpers"
 	"ronnymedina/geolocation-api/src/models"
@@ -55,4 +56,41 @@ func DeletePlace(id int64) {
 
 	_, err = stmt.Exec(true, id)
 	helpers.CheckAndThrowException(err)
+}
+
+func GetNearbyPlaces(params validations.NearbyPlaces) []*validations.NearbyPlaceResult {
+	// $1 = lat | $2 = lng | $3 = range | $4 = limit | $5 = page
+	sql := `
+	SELECT
+		p.id AS id,
+		p.name AS name,
+		p.description AS description,
+		p.resource_id AS resource_id,
+		p.lat AS lat,
+		p.lng AS lng,
+		(ROUND(earth_distance(ll_to_earth($1, $2), ll_to_earth(p.lat, p.lng))::NUMERIC, 2)/1000) AS distance
+	FROM places AS p
+	WHERE is_deleted = false
+	AND (earth_box(ll_to_earth($1, $2), $3) @> ll_to_earth (p.lat, p.lng)
+	AND earth_distance(ll_to_earth ($1, $2), ll_to_earth (p.lat, p.lng)) < $3)
+	ORDER BY distance, id LIMIT $4 OFFSET $5
+	`
+
+	rows, err := config.GetDB().Query(sql, params.Lat, params.Lng, params.Distance*1000, params.Limit, params.Page)
+	helpers.CheckAndThrowException(err)
+	defer rows.Close()
+
+	var results []*validations.NearbyPlaceResult
+
+	for rows.Next() {
+		var p validations.NearbyPlaceResult
+
+		if err := rows.Scan(&p.Id, &p.Name, &p.Description, &p.ResourceId, &p.Lat, &p.Lng, &p.Distance); err != nil {
+			log.Fatal(err)
+		}
+
+		results = append(results, &p)
+	}
+
+	return results
 }

@@ -1,4 +1,3 @@
-
 CREATE EXTENSION IF NOT EXISTS earthdistance CASCADE;
 
 DROP TABLE places;

@@ -17,6 +17,7 @@ services:
     build: .
     container_name: geo-api
     environment:
+      - PORT=8080
       - POSTGRE_HOST=geo-pg
       - POSTGRE_USER=postgres
       - POSTGRE_PASS=postgres
