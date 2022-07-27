@@ -1,3 +1,3 @@
-echo "Start app in dev mode"
+echo "=== Start app in (${GIN_MODE}) ==="
 
-cd src && go run .
+./${buildName}

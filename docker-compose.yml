@@ -7,7 +7,7 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=geolocation
+      - POSTGRES_DB=geo
     ports:
       - '5432:5432'
     volumes:
@@ -21,7 +21,8 @@ services:
       - POSTGRE_HOST=geo-pg
       - POSTGRE_USER=postgres
       - POSTGRE_PASS=postgres
-      - POSTGRE_DB=geolocation
+      - POSTGRE_DB=geo
+      - POSTGRE_PORT=5432
     ports:
       - '8080:8080'
     depends_on:
