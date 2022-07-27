@@ -5,18 +5,38 @@ import (
 	"ronnymedina/geolocation-api/src/middlewares"
 	"ronnymedina/geolocation-api/src/routes"
 
+	docs "ronnymedina/geolocation-api/src/docs"
+
+	swaggerfiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
+
 	"github.com/gin-gonic/gin"
 
 	_ "github.com/lib/pq"
 )
 
+// @BasePath /api/v1
+// PingExample godoc
+// @Summary ping example
+// @Schemes
+// @Description do ping
+// @Tags example
+// @Accept json
+// @Produce json
+// @Success 200 {string} Helloworld
+// @Router /example/helloworld [get]
+func ping(c *gin.Context) {
+	c.JSON(200, gin.H{"message": "pong"})
+}
+
 func main() {
 	config.StartConnection()
 	r := gin.Default()
+	docs.SwaggerInfo.BasePath = "/api/v1"
 
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{"message": "pong"})
-	})
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
+
+	r.GET("/ping", ping)
 
 	// places
 	v1 := r.Group("/v1")
