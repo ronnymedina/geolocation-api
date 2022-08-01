@@ -11,6 +11,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// @BasePath /api/v1
+// PingExample godoc
+// @Schemes
+// @Description Create a new place
+// @Accept json
+// @Produce json
+// @Router /places [post]
 func CreatePlace(c *gin.Context) {
 	log.SetPrefix("[CreatePlace] ")
 	defer helpers.ResInternalServerErr(c)

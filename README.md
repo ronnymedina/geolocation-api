@@ -19,11 +19,12 @@ Hi, if you are interested in this repository, I will tell you what it does.
 3) Copy the content of `migration.sql` in terminal.
 4) Start api: `docker-compose up -d geo-api`
 
-### Generate Documentation
-If you have error with the command (`swag init -g`), see this [post](https://github.com/swaggo/swag/issues/197#issuecomment-585102353).
+### Commands
+ - Build app: `make build`
+ - Update doc: `make update-doc`
 
-- Generate files: `swag init -g ./src/main.go -o ./src/docs`
-
+### Documentation
+ - [postgresql-geo-queries-made-easy](https://postindustria.com/postgresql-geo-queries-made-easy/)
 
 ### Main dependencies
 
@@ -31,6 +32,3 @@ If you have error with the command (`swag init -g`), see this [post](https://git
 - [Field validator](https://pkg.go.dev/github.com/go-playground/validator/v10#readme-usage-and-documentation)
 - [Gin swagger](https://github.com/swaggo/gin-swagger)
 - [swag](https://github.com/swaggo/swag)
-
-### Documentation
- - [postgresql-geo-queries-made-easy](https://postindustria.com/postgresql-geo-queries-made-easy/)
