@@ -16,14 +16,12 @@ import (
 )
 
 // PingExample godoc
-// @Summary ping example
 // @Schemes
 // @Description do ping
-// @Tags example
 // @Accept json
 // @Produce json
-// @Success 200 {string} Helloworld
-// @Router /example/helloworld [get]
+// @Success 200
+// @Router /ping [get]
 func ping(c *gin.Context) {
 	c.JSON(200, gin.H{"message": "pong"})
 }
@@ -31,21 +29,12 @@ func ping(c *gin.Context) {
 // @title           Swagger Example API
 // @version         1.0
 // @description     This is a sample server celler server.
-// @termsOfService  http://swagger.io/terms/
-
-// @contact.name   API Support
-// @contact.url    http://www.swagger.io/support
-// @contact.email  support@swagger.io
-
-// @license.name  Apache 2.0
-// @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
-
 // @host      localhost:8080
-// @BasePath  /api/v1
+// @BasePath  /v1
 func main() {
 	config.StartConnection()
 	r := gin.Default()
-	docs.SwaggerInfo.BasePath = "/api/v1"
+	docs.SwaggerInfo.BasePath = "/v1"
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
@@ -59,7 +48,7 @@ func main() {
 		v1.PATCH(routeName+"/:id", middlewares.FindPlaceOrReturnNotFound(), routes.UpdatePlace)
 		v1.GET(routeName+"/:id", middlewares.FindPlaceOrReturnNotFound(), routes.FindPlace)
 		v1.DELETE(routeName+"/:id", middlewares.FindPlaceOrReturnNotFound(), routes.DeletePlace)
-		v1.GET(routeName+"/nearby", routes.GetNearbyPlaces)
+		v1.POST(routeName+"/nearby", routes.GetNearbyPlaces)
 	}
 
 	r.Run() // listen and serve on 0.0.0.0:8080

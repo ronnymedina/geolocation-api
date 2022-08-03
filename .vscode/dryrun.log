@@ -1,0 +1,5 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory `/Users/ronny/projects/geolocation-api'
+docker-compose up -d --build geo-api
+make: Leaving directory `/Users/ronny/projects/geolocation-api'
+ 

@@ -11,10 +11,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// @BasePath /api/v1
-// PingExample godoc
 // @Schemes
 // @Description Create a new place
+// @Param place body validations.CreatePlace true "Place"
 // @Accept json
 // @Produce json
 // @Router /places [post]
@@ -35,6 +34,13 @@ func CreatePlace(c *gin.Context) {
 	helpers.ResSuccess(c, 201, gin.H{"data": id})
 }
 
+// @Schemes
+// @Description Update place
+// @Param id path int true  "Place ID"
+// @Param place body validations.UpdatePlace true "Place"
+// @Accept json
+// @Produce json
+// @Router /places/{id} [patch]
 func UpdatePlace(c *gin.Context) {
 	log.SetPrefix("[UpdatePlace] ")
 	defer helpers.ResInternalServerErr(c)
@@ -53,12 +59,22 @@ func UpdatePlace(c *gin.Context) {
 	helpers.ResSuccess(c, 200, gin.H{"data": "ok"})
 }
 
+// @Schemes
+// @Description Find place
+// @Param id path int true  "Place ID"
+// @Produce json
+// @Router /places/{id} [get]
 func FindPlace(c *gin.Context) {
 	place := c.MustGet("place").(*models.Place)
 
 	c.JSON(200, gin.H{"data": place})
 }
 
+// @Schemes
+// @Description delete a place
+// @Produce json
+// @Param id path int true  "Place ID"
+// @Router /places/{id} [delete]
 func DeletePlace(c *gin.Context) {
 	place := c.MustGet("place").(*models.Place)
 	services.DeletePlace(place.Id)
@@ -66,6 +82,12 @@ func DeletePlace(c *gin.Context) {
 	c.JSON(200, gin.H{"data": "ok"})
 }
 
+// @Schemes
+// @Description Get nearby place from current location
+// @Param place body validations.NearbyPlaces true "NearbyPlaces"
+// @Accept json
+// @Produce json
+// @Router /places/nearby [post]
 func GetNearbyPlaces(c *gin.Context) {
 	var params validations.NearbyPlaces
 
