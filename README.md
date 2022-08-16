@@ -1,6 +1,6 @@
 # Geolocation API :turtle:
 
-Simple Geolocation API wiht postgres.
+Simple Geolocation API with postgres.
 
 ![](name.gif)
 
