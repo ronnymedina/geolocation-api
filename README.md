@@ -2,6 +2,8 @@
 
 Simple Geolocation API wiht postgres.
 
+![](name.gif)
+
 features:
  - CRUD places
  - Find nearby places based on a user's location and distance.
